@@ -15,6 +15,14 @@ func NewCore(db *gorm.DB) Core {
 	return Core{rss: rss.NewStore(db)}
 }
 
+func (c Core) Query(ctx context.Context, offset, limit int) ([]rss.Feed, error) {
+	feeds, err := c.rss.Query(ctx, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+	return feeds, nil
+}
+
 func (c Core) QueryByID(ctx context.Context, userID int) (rss.Feed, error) {
 	feed, err := c.rss.QueryByID(ctx, userID)
 	if err != nil {

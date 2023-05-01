@@ -35,6 +35,7 @@ func V1(r *gin.Engine, cfg *APIMuxConfig) {
 	}
 
 	r.POST("/feeds", mid.Authenticate(cfg.Auth), fgh.Create)
+	r.GET("/feeds", mid.Authenticate(cfg.Auth), fgh.Query)
 	r.GET("/feeds/:id", mid.Authenticate(cfg.Auth), fgh.QueryByID)
 
 }

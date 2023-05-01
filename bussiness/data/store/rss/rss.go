@@ -24,6 +24,15 @@ func (s Store) CreateFeed(ctx context.Context, feed Feed) (Feed, error) {
 	return feed, nil
 }
 
+func (s Store) Query(ctx context.Context, offset, limit int) ([]Feed, error) {
+	var feeds []Feed
+	res := s.db.Find(&feeds).Limit(limit).Offset(offset).Order("id desc")
+	if res.Error != nil {
+		return []Feed{}, res.Error
+	}
+	return feeds, nil
+}
+
 func (s Store) QueryByID(ctx context.Context, id int) (Feed, error) {
 	var feed Feed
 	res := s.db.Where(&Feed{
