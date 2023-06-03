@@ -2,6 +2,7 @@ package crawler
 
 import (
 	"RssReader/bussiness/data/store/rss"
+	"RssReader/bussiness/sys/config"
 	"RssReader/bussiness/sys/message_broker"
 	"context"
 	"github.com/mmcdole/gofeed"
@@ -25,7 +26,7 @@ type MessageBroker interface {
 
 func (c Config) crawl(f rss.Feed, ctx context.Context) error {
 	fp := gofeed.NewParser()
-	feed, err := fp.ParseURL(f.Link)
+	feed, err := fp.ParseURLWithContext(f.Link, ctx)
 	if err != nil {
 		return err
 	}
@@ -50,7 +51,6 @@ func (c Config) crawl(f rss.Feed, ctx context.Context) error {
 }
 
 func (c Config) Run(NumberOfWorkers int) error {
-	ctx := context.Background()
 	feeds := c.Fs.GetFeedsWithLastPublishedTime()
 	ch := make(chan struct{}, NumberOfWorkers)
 	var wg sync.WaitGroup
@@ -59,11 +59,14 @@ func (c Config) Run(NumberOfWorkers int) error {
 		go func(f rss.Feed) {
 			ch <- struct{}{}
 			log.Printf("crawling feed: %v %v", f.ID, f.Title)
-			err := c.crawl(f, ctx)
+			ctx := context.Background()
+			ctxWithTimeOut, cancel := context.WithTimeout(ctx, config.GeneralSettings.CrawlingTimeOut)
+			defer cancel()
+			err := c.crawl(f, ctxWithTimeOut)
 			if err != nil {
-				log.Printf("crawling feed failed: %v %v", f.ID, f.Title)
+				log.Printf("crawling feed failed: %v %v", f.ID, err)
 			} else {
-				log.Printf("crawling feed success: %v %v", f.ID, f.Title)
+				log.Printf("crawling feed success: %v %v", f.ID, err)
 			}
 			<-ch
 			wg.Done()

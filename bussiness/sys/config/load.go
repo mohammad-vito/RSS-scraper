@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/spf13/viper"
 	"os"
+	"time"
 )
 
 type db struct {
@@ -14,6 +15,12 @@ type db struct {
 }
 
 var DB db
+
+type generalSettings struct {
+	CrawlingTimeOut time.Duration
+}
+
+var GeneralSettings generalSettings = generalSettings{CrawlingTimeOut: 3 * time.Second}
 
 func init() {
 	wd, err := os.Getwd()
