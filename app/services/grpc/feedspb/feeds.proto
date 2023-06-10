@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package feeds;
+option go_package = "./app/services/grpc/feedspb";
+import "google/protobuf/timestamp.proto";
+
+
+message Feed {
+  int64 id = 1;
+  string title = 2;
+  string link = 3;
+  optional string description = 4;
+  optional google.protobuf.Timestamp last_published_at = 5;
+}
+
+message GetFeedRequest {
+  int64 id = 1;
+}
+
+message GetFeedResponse {
+  Feed feed = 1;
+}
+
+message GetFeedListRequest {
+  int32 limit = 1;
+  int32 offset = 2;
+  enum OrderBy {
+    DEFAULT = 0;
+    DISPLAY_NAME = 1;
+    CREATED_AT = 2;
+  }
+  OrderBy order_by = 3;
+}
+
+message GetFeedListResponse {
+  repeated Feed feeds = 1;
+}
+
+service FeedService {
+  rpc GetFeed(GetFeedRequest) returns (GetFeedResponse);
+  rpc GetFeedList(GetFeedListRequest) returns (GetFeedListResponse);
+}
