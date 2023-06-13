@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
+	"net/http"
 	"os"
 )
 
@@ -26,6 +27,10 @@ func V1(r *gin.Engine, cfg *APIMuxConfig) {
 		User: userCore.NewCore(cfg.Log, cfg.DB),
 		Auth: cfg.Auth,
 	}
+
+	r.GET("/ping", func(context *gin.Context) {
+		context.String(http.StatusOK, "pong")
+	})
 
 	r.POST("/register", ugh.Register)
 	r.POST("/login", ugh.Login)
