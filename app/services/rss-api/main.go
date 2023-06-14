@@ -8,12 +8,13 @@ import (
 	"RssReader/foundation/logger"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"os"
 )
 
-func main() {
-
+func run(log *zap.SugaredLogger) error {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tehran",
 		config.DB.Host,
 		config.DB.User,
@@ -22,19 +23,15 @@ func main() {
 		config.DB.Port,
 	)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	db.AutoMigrate(&rss.Feed{}, &rss.Post{})
 	if err != nil {
-		fmt.Println(err)
-		return
+		return err
 	}
+	err = db.AutoMigrate(&rss.Feed{}, &rss.Post{})
+	if err != nil {
+		return err
+	}
+
 	r := gin.Default()
-
-	log, err := logger.New("web")
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
 	a, _ := auth.New("mysecret_test")
 
 	cfg := handlers.APIMuxConfig{
@@ -43,14 +40,25 @@ func main() {
 		Auth:     &a,
 		DB:       db,
 	}
-
 	handlers.V1(r, &cfg)
 
-	r.Run() // listen
+	err = r.Run()
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
-	//var t bool
-	//db.Raw("select true").Scan(&t)
-	//fmt.Println(t)
-	//db.AutoMigrate(&user.User{})
+func main() {
+	log, err := logger.New("web")
+	if err != nil {
+		fmt.Printf("creating new logger: %w", err)
+		os.Exit(1)
+	}
 
+	if err = run(log); err != nil {
+		log.Errorw("startup", "ERROR", err)
+		log.Sync()
+		os.Exit(1)
+	}
 }
