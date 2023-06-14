@@ -4,6 +4,7 @@ import (
 	"RssReader/app/services/rss-api/handlers"
 	"RssReader/bussiness/data/store/rss"
 	"RssReader/bussiness/sys/auth"
+	"RssReader/bussiness/sys/config"
 	"RssReader/foundation/logger"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -13,7 +14,13 @@ import (
 
 func main() {
 
-	dsn := "host=localhost user=postgres password=postgres dbname=test port=5431 sslmode=disable TimeZone=Asia/Tehran"
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tehran",
+		config.DB.Host,
+		config.DB.User,
+		config.DB.Password,
+		config.DB.Dbname,
+		config.DB.Port,
+	)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	db.AutoMigrate(&rss.Feed{}, &rss.Post{})
 	if err != nil {
