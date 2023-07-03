@@ -1,0 +1,14 @@
+INSERT INTO public.users (id, name, email, roles, password_hash, date_created, date_updated) VALUES (1, 'abbas', 'mortazavi', '{admin}', '$2a$10$JS4IMpah8cx/lGRB0CYxQuuYqw0uqrgmTCAErMpFOe5xK1q2nQi9u', '2022-11-21 13:36:38.320274 +00:00', '0001-01-01 00:00:00.000000 +00:00');
+INSERT INTO public.users (id, name, email, roles, password_hash, date_created, date_updated) VALUES (2, 'abbas', 'mortazavi@gmail.com', '{admin}', '$2a$10$EZsrt/ENtRQ6QYMr1vYvk.t9umg.t23zs1j/QlbvyU8soXcRoeE8i', '2022-11-21 16:17:49.873866 +00:00', null);
+INSERT INTO public.users (id, name, email, roles, password_hash, date_created, date_updated) VALUES (3, 'abbas', 'mortazavi1@gmail.com', '{admin}', '$2a$10$mKgqxvkkghlP10KLtBaHx.t3.tf0t5VuAa2kc6Z/IzYusV53i0Xqy', '2022-11-21 16:19:23.849266 +00:00', null);
+INSERT INTO public.users (id, name, email, roles, password_hash, date_created, date_updated) VALUES (4, 'abbas', 'mortazavi2@gmail.com', '{admin}', '$2a$10$xHy62gJn4fouEwlfVV4ZUOIvxl5HRLN8GrBBvEIyGOZN1qNgTgoHC', '2022-11-21 16:28:12.765370 +00:00', null);
+INSERT INTO public.users (id, name, email, roles, password_hash, date_created, date_updated) VALUES (5, 'abbas', 'mortazavi3@gmail.com', '{admin}', '$2a$10$1Fx5DDUN2Vm9Ft9b28q3fe/61O8o9AAxNPjX54uOIOLJ.aJyewUNO', '2022-11-21 16:43:33.792364 +00:00', null);
+INSERT INTO public.users (id, name, email, roles, password_hash, date_created, date_updated) VALUES (8, 'abbas', 'abbas23@gmail.com', '{admin}', '$2a$10$rQRzfMIjy1.y5dq3V4CSVO4aHUv/aNpa27F72YQaTHnRXpB1nSYuq', '2022-12-04 19:35:25.905922 +00:00', null);
+INSERT INTO public.users (id, name, email, roles, password_hash, date_created, date_updated) VALUES (9, 'abb3as', 'abbas233@gmail.com', '{admin}', '$2a$10$d9xlBkKZDZQTBhv4icMZIez.jj.ECJdCT3s9dfky/oUJvO1dZZVaa', '2022-12-04 19:38:44.390185 +00:00', null);
+INSERT INTO public.users (id, name, email, roles, password_hash, date_created, date_updated) VALUES (10, 'abb3ras', 'abbasw233@gmail.com', '{admin}', '$2a$10$MoSVXbc4M8pSnTrMcNtqde3TzVaq.9l0RDnV1W8mE3KZpSPADxKB6', '2022-12-04 19:39:58.735988 +00:00', null);
+
+
+INSERT INTO public.feeds (id, created_at, updated_at, deleted_at, link, title, description, last_published_at) VALUES (1, null, null, null, 'https://www.theguardian.com/uk/rss', 'theguardian', 'news', null);
+INSERT INTO public.feeds (id, created_at, updated_at, deleted_at, link, title, description, last_published_at) VALUES (2, null, null, null, 'https://rss.art19.com/apology-line', 'two', null, null);
+INSERT INTO public.feeds (id, created_at, updated_at, deleted_at, link, title, description, last_published_at) VALUES (4, null, null, null, 'https://feeds.simplecast.com/54nAGcIl', 'simplecast', null, null);
+INSERT INTO public.feeds (id, created_at, updated_at, deleted_at, link, title, description, last_published_at) VALUES (5, null, null, null, 'https://feeds.fireside.fm/bibleinayear/rss', 'bibleinayear', null, null);

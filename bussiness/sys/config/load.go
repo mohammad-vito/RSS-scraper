@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type db struct {
+type Database struct {
 	Host     string
 	User     string
 	Password string
@@ -14,7 +14,7 @@ type db struct {
 	Port     string
 }
 
-var DB db
+var DB Database
 
 type generalSettings struct {
 	CrawlingTimeOut time.Duration

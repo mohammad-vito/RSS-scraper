@@ -2,7 +2,6 @@ package main
 
 import (
 	"RssReader/app/services/rss-api/handlers"
-	"RssReader/bussiness/data/store/rss"
 	"RssReader/bussiness/sys/auth"
 	"RssReader/bussiness/sys/config"
 	"RssReader/foundation/logger"
@@ -23,10 +22,6 @@ func run(log *zap.SugaredLogger) error {
 		config.DB.Port,
 	)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		return err
-	}
-	err = db.AutoMigrate(&rss.Feed{}, &rss.Post{})
 	if err != nil {
 		return err
 	}
